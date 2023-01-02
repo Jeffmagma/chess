@@ -1,9 +1,36 @@
 import Head from 'next/head'
 import {motion} from 'framer-motion'
-import {EventHandler} from "react";
+import React, {MutableRefObject, useRef, useState} from "react";
 
-function Square({color, onMouseEnter}: { color: string, onMouseEnter: EventHandler<any> }) {
-    return <div style={{width: "100px", height: "100px", background: color}} onMouseEnter={onMouseEnter}></div>
+function DragThing() {
+    const [top, settop] = useState(100);
+    const [left, setleft] = useState(100);
+    const xd = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
+    return (<motion.div ref={xd} drag style={{border: "1px solid green", position: "fixed", top: top + "px", left: left + "px"}} dragSnapToOrigin={true} dragElastic={0} dragMomentum={false} onDragEnd={(event: PointerEvent) => {
+        const x = document.elementsFromPoint(event.clientX, event.clientY)[1].getBoundingClientRect();
+        console.log(x.top, x.left);
+        settop(x.top + 40);
+        setleft(x.left + 20);
+    }
+    }>piece
+    </motion.div>);
+}
+
+function Square({row, col}: { row: number, col: number }) {
+    return <div style={{width: "100px", height: "100px", border: "1px cyan solid", position: "absolute", top: col * 100, left: row * 100}}>
+        {String.fromCharCode('A'.charCodeAt(0) + row) + (col + 1)}
+    </div>
+}
+
+function Board() {
+    return (<div style={{position: "absolute"}}>
+        {[...Array(8)].map((element, row) =>
+            [...Array(8)].map((element, col) => {
+                return <Square key={"" + row + col} row={row} col={col}/>
+            })
+        )}
+        <DragThing/>
+    </div>)
 }
 
 export default function Home() {
@@ -15,11 +42,7 @@ export default function Home() {
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            {["red", "blue", "yellow"].map(x => <Square key={x} color={x} onMouseEnter={() => console.log("mouse enter " + x)}/>)}
-            <motion.div drag style={{border: "1px solid green"}} dragMomentum={false} dragSnapToOrigin={true} onDrag={
-                (event, info) => console.log(info.point.x, info.point.y)
-            }>hellio
-            </motion.div>
+            <Board/>
         </>
     )
 }
