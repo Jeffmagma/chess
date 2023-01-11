@@ -3,23 +3,73 @@ import {motion} from 'framer-motion'
 import React, {Dispatch, SetStateAction, useState} from "react";
 
 interface PieceProps {
-	set_selected: Dispatch<SetStateAction<point | null>>;
 	row: number;
 	col: number;
 	piece: string;
-	set_positions: Dispatch<SetStateAction<Array<Array<string>>>>;
+	board: string[][];
+	selected: point | null;
+	set_selected: Dispatch<SetStateAction<point | null>>;
+	set_positions: Dispatch<SetStateAction<string[][]>>;
+	moves: point[];
+	set_moves: Dispatch<SetStateAction<point[]>>;
 }
 
-function Piece({set_selected, row, piece, col, set_positions}: PieceProps) {
+enum piece_names {
+	test = "test",
+	pawn = "pawn",
+}
+
+function pawn_moves(board: string[][], position: point): point[] {
+	const direction = 1;
+	let r: point[] = [];
+	if (board[position.x][position.y + direction] === "") {
+		r.push({x: position.x, y: position.y + direction});
+	}
+	if (board[position.x][position.y + direction * 2] === "") {
+		r.push({x: position.x, y: position.y + direction * 2});
+	}
+	return r;
+}
+
+const pieces: { [key: string]: { render: JSX.Element, moves: (board: string[][], position: point) => point[] } } = {
+	test: {
+		render: <div>test piece</div>,
+		moves: (board, position) => {
+			return [{x: position.x - 1, y: position.y},
+				{x: position.x + 1, y: position.y},
+				{x: position.x, y: position.y - 1},
+				{x: position.x, y: position.y + 1},
+			]
+		}
+	},
+	pawn: {
+		render: <div>pawn</div>,
+		moves: pawn_moves
+	}
+}
+
+function Piece({selected, set_selected, row, piece, col, set_positions, set_moves, board}: PieceProps) {
 	const [position, set_position] = useState<point>({x: row, y: col});
 	return (
-		<motion.div drag style={{border: "1px solid green"}} dragSnapToOrigin={true} dragElastic={0} dragMomentum={false}
+		<motion.div drag style={{border: "1px solid " + (selected == position ? "red" : "green")}} dragSnapToOrigin={true} dragElastic={0} dragMomentum={false}
+		            onClick={() => {
+			            if (selected == position) {
+				            set_selected(null);
+				            set_moves([]);
+			            } else {
+				            set_selected(position);
+				            set_moves([...pieces[piece].moves(board, {x: row, y: col})]);
+			            }
+		            }}
 		            onDragStart={() => {
 			            set_selected(position);
-		            }
-		            }
+			            set_moves([...pieces[piece].moves(board, {x: row, y: col})]);
+		            }}
 		            onDragEnd={(event: PointerEvent) => {
-			            const x = document.elementsFromPoint(event.clientX, event.clientY)[1];
+			            set_moves([]);
+			            const elements = document.elementsFromPoint(event.clientX, event.clientY);
+			            const x = elements[elements.length - 3];
+			            console.log(elements);
 			            const new_position = {x: parseInt(x.getAttribute("data-row")!), y: parseInt(x.getAttribute("data-col")!)};
 			            set_positions(prev_position => {
 				            if (position.x == new_position.x && position.y == new_position.y) {
@@ -33,16 +83,19 @@ function Piece({set_selected, row, piece, col, set_positions}: PieceProps) {
 			            })
 			            set_position(new_position);
 			            console.log(x.getAttribute("data-row"), x.getAttribute("data-col"));
-		            }
-		            }>
-			piece
+		            }}>
+			{pieces[piece].render}
 		</motion.div>);
 }
 
-function Square({set_selected, row, piece, col, set_positions}: PieceProps) {
-	return <div data-row={row} data-col={col} style={{width: "100px", height: "100px", border: "1px cyan solid"}}>
+function Square({selected, set_selected, row, piece, col, set_positions, set_moves, moves, board}: PieceProps) {
+	let color = "cyan";
+	if (moves.some(position => position.x === row && position.y === col)) {
+		color = "pink";
+	}
+	return <div data-row={row} data-col={col} style={{width: "100px", height: "100px", border: "1px solid " + color}}>
 		{String.fromCharCode('A'.charCodeAt(0) + row) + (col + 1)}
-		{piece ? <Piece set_selected={set_selected} piece={piece} row={row} col={col} set_positions={set_positions}/> : <></>}
+		{piece !== "" ? <Piece selected={selected} set_selected={set_selected} piece={piece} row={row} col={col} set_positions={set_positions} set_moves={set_moves} board={board} moves={moves}/> : <></>}
 	</div>
 }
 
@@ -52,7 +105,7 @@ interface point {
 }
 
 const initial_board = [
-	["test", "", "", "", "", "", "", ""],
+	[piece_names.test, "", "", "", "", "", "", ""],
 	["", "", "", "", "", "", "", ""],
 	["", "", "", "", "", "", "", ""],
 	["", "", "", "", "", "", "", ""],
@@ -60,26 +113,31 @@ const initial_board = [
 
 function Board() {
 	const [positions, set_positions] = useState(initial_board);
-	const [_selected, set_selected] = useState<point | null>(null);
+	const [selected, set_selected] = useState<point | null>(null);
+	const [moves, set_moves] = useState<point[]>([]);
 
 	return (
-		<div style={{position: "absolute", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"}}>
-			{positions.map((pieces, row) => pieces.map((piece, col) =>
-				<Square key={"" + row + col} row={row} col={col} piece={piece} set_selected={set_selected} set_positions={set_positions}/>
-			))}
-		</div>)
+		<div>
+			<div style={{position: "absolute", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"}}>
+				{positions.map((pieces, row) => pieces.map((piece, col) =>
+					<Square selected={selected} key={"" + row + col} row={row} col={col} piece={piece} set_selected={set_selected} set_positions={set_positions} set_moves={set_moves} moves={moves} board={positions}/>
+				))}
+			</div>
+		</div>
+	)
 }
 
 export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>Create Next App</title>
+				<title>chess test</title>
 				<meta name="description" content="Generated by create next app"/>
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
 				<link rel="icon" href="/favicon.ico"/>
 			</Head>
 			<Board/>
+			<a href={"https://github.com/Jeffmagma/chess"}>source code</a>
 		</>
 	)
 }
