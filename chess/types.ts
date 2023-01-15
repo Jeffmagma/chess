@@ -14,7 +14,7 @@ export interface PieceInfoMap {
 	[key: string]: PieceInfo
 }
 
-export interface BoardState {
+export interface board_state {
 	positions: string[][]
 	selected: point | null;
 	moves: point[];
@@ -23,14 +23,13 @@ export interface BoardState {
 	set_moves: Dispatch<SetStateAction<point[]>>;
 }
 
-
 export interface SquareProps {
-	board: BoardState;
+	board: board_state;
 	x: number;
 	y: number;
 	piece: string;
 }
 
 export interface PieceProps extends SquareProps {
-
+	end_move: (new_position: point) => void;
 }
