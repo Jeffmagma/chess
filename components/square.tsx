@@ -1,9 +1,11 @@
 import {point, SquareProps} from "../chess/types";
 import Piece from "./piece";
 
-export default function Square({x, y, piece, board}: SquareProps) {
-	const {moves, selected, set_selected, set_moves, set_positions} = board;
+export default function Square({x, y, piece, board, board_ref}: SquareProps) {
+	const {moves, selected, set_selected, set_positions} = board;
+
 	let color = "cyan";
+	// TODO different visual indicator for selected piece
 	if (moves.some(position => position.x === x && position.y === y)) {
 		color = "pink";
 	}
@@ -25,7 +27,6 @@ export default function Square({x, y, piece, board}: SquareProps) {
 			console.log("invalid move!");
 		}
 
-		set_moves([]);
 		set_selected(null);
 	}
 
@@ -33,13 +34,12 @@ export default function Square({x, y, piece, board}: SquareProps) {
 		if (selected !== null) {
 			if (selected.x === x && selected.y === y) {
 				set_selected(null);
-				set_moves([]);
 			} else {
 				end_move({x: x, y: y});
 			}
 		}
 	}}>
 		<div style={{position: "absolute"}}>{String.fromCharCode('A'.charCodeAt(0) + x) + (y + 1)}</div>
-		{piece !== "" ? <Piece piece={piece} x={x} y={y} board={board} end_move={end_move}/> : <></>}
+		{piece !== "" ? <Piece piece={piece} x={x} y={y} board={board} end_move={end_move} board_ref={board_ref}/> : <></>}
 	</div>
 }

@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction} from "react";
+import {Dispatch, Reducer, ReducerAction, RefObject, SetStateAction} from "react";
 
 export interface point {
 	x: number
@@ -20,7 +20,8 @@ export interface board_state {
 	moves: point[];
 	set_positions: Dispatch<SetStateAction<string[][]>>;
 	set_selected: Dispatch<SetStateAction<point | null>>;
-	set_moves: Dispatch<SetStateAction<point[]>>;
+	//set_moves: Dispatch<SetStateAction<point[]>>;
+	set_moves: Dispatch<ReducerAction<Reducer<point[], any>>>;
 }
 
 export interface SquareProps {
@@ -28,6 +29,7 @@ export interface SquareProps {
 	x: number;
 	y: number;
 	piece: string;
+	board_ref: RefObject<HTMLDivElement>;
 }
 
 export interface PieceProps extends SquareProps {
