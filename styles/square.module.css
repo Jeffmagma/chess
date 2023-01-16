@@ -1,0 +1,13 @@
+.square {
+	width: 100px;
+	height: 100px;
+	position: relative;
+}
+
+.light {
+	background-color: darkgray;
+}
+
+.dark {
+	background-color: gray;
+}

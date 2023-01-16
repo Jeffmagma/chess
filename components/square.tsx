@@ -1,14 +1,12 @@
 import {point, SquareProps} from "../chess/types";
 import Piece from "./piece";
 
+import styles from "./../styles/square.module.css"
+
 export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 	const {moves, selected, set_selected, set_positions} = board;
 
-	let color = "cyan";
-	// TODO different visual indicator for selected piece
-	if (moves.some(position => position.x === x && position.y === y)) {
-		color = "pink";
-	}
+	const square_is_move = moves.some(position => position.x === x && position.y === y);
 
 	// if this piece is dragged or clicked onto a new square
 	function end_move(new_position: point) {
@@ -30,7 +28,7 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 		set_selected(null);
 	}
 
-	return <div data-x={x} data-y={y} style={{position: "relative", width: "100px", height: "100px", border: "1px solid " + color}} onClick={() => {
+	return <div data-x={x} data-y={y} className={styles.square + " " + (y % 2 == x % 2 ? styles.light : styles.dark)} onClick={() => {
 		if (selected !== null) {
 			if (selected.x === x && selected.y === y) {
 				set_selected(null);
@@ -40,6 +38,9 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 		}
 	}}>
 		<div style={{position: "absolute"}}>{String.fromCharCode('A'.charCodeAt(0) + x) + (y + 1)}</div>
+		{square_is_move ? <div style={{width: "100%", height: "100%", position: "absolute"}}>
+			<div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "none"}}>x</div>
+		</div> : <></>}
 		{piece !== "" ? <Piece piece={piece} x={x} y={y} board={board} end_move={end_move} board_ref={board_ref}/> : <></>}
 	</div>
 }

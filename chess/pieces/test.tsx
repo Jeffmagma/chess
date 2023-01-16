@@ -1,5 +1,6 @@
-import {PieceInfo, point} from "../types";
 import Image from "next/image";
+
+import {PieceInfo, point} from "../types";
 
 export const testpiece: PieceInfo = {
 	render: <TestPiece/>,
