@@ -5,6 +5,11 @@ export interface point {
 	y: number
 }
 
+export interface piece {
+	piece: string;
+	color: string;
+}
+
 export interface PieceInfo {
 	render: JSX.Element;
 	moves: (board: string[][], position: point) => point[];

@@ -8,7 +8,7 @@ export const testpiece: PieceInfo = {
 }
 
 function TestPiece() {
-	return <div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "none"}}><Image src={"thirteen.svg"} alt={"test"} width={20} height={20}/></div>
+	return <Image src={"thirteen.svg"} alt={"test"} width={50} height={50}/>;
 }
 
 function moves_test(board: string[][], position: point): point[] {

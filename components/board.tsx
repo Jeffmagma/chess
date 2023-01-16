@@ -5,8 +5,12 @@ import {board_state, point} from "../chess/types";
 import Square from "./square";
 
 function get_initial_board() {
+	// TODO add colors
 	return [
 		[piece_names.test, "", "", "", "", "", "", ""],
+		["", "", "", "", "", "", "", ""],
+		["", "", piece_names.test, "", "", "", "", ""],
+		["", "", "", "", piece_names.rook, "", "", ""],
 		["", "", "", "", "", "", "", ""],
 		["", "", "", "", "", "", "", ""],
 		["", "", "", "", "", "", "", ""],

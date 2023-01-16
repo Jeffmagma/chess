@@ -38,6 +38,6 @@ export default function Piece({x, y, piece, board, end_move, board_ref}: PiecePr
 			            // end the move at this position
 			            end_move(new_position);
 		            }}>
-			{piece_info[piece].render}
+			<div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "none"}}>{piece_info[piece].render}</div>
 		</motion.div>);
 }
