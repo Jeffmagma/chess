@@ -1,43 +1,35 @@
-import {useEffect, useReducer, useRef, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 
-import {piece_info, piece_names} from "../chess/piece_info";
-import {board_state, point} from "../chess/types";
+import {piece_info} from "../chess/piece_info";
+import {board_state, color_id, empty_pie, pie, piece_id, point} from "../chess/types";
 import Square from "./square";
 
-function get_initial_board() {
+function get_initial_board(): pie[][] {
 	// TODO add colors
 	return [
-		[piece_names.test, "", "", "", "", "", "", ""],
+		[{piece: piece_id.test, color: color_id.white}, "", "", "", "", "", "", ""],
 		["", "", "", "", "", "", "", ""],
-		["", "", piece_names.test, "", "", "", "", ""],
-		["", "", "", "", piece_names.rook, "", "", ""],
-		["", "", "", "", "", "", "", ""],
-		["", "", "", "", "", "", "", ""],
+		["", "", {piece: piece_id.test, color: color_id.white}, "", "", "", "", ""],
+		["", "", "", "", {piece: piece_id.rook, color: color_id.white}, "", "", ""],
 		["", "", "", "", "", "", "", ""],
 		["", "", "", "", "", "", "", ""],
-	];
+		["", "", "", "", "", "", "", ""],
+		["", "", "", "", "", "", "", ""],
+	].map(x => x.map(y => y === "" ? empty_pie : y as pie));
 }
 
 export default function Board() {
-	const [positions, set_positions] = useState(get_initial_board());
+	const [positions, set_positions] = useState<pie[][]>(get_initial_board());
 	const [selected, set_selected] = useState<point | null>(null);
 	const board_ref = useRef<HTMLDivElement>(null);
-	//const [moves, set_moves] = useState<point[]>([]);
 
-	const [moves, set_moves] = useReducer((_state: point[], _action: null) => {
+	const moves = useMemo(() => {
 		if (selected === null) {
 			return [];
 		} else {
 			const piece = positions[selected.x][selected.y];
-			console.log(piece);
-			return piece_info[piece].moves(positions, selected);
+			return piece_info[piece.piece].moves(positions, selected);
 		}
-	}, [])
-
-	// update the available moves when
-	useEffect(() => {
-		console.log("s:" + JSON.stringify(selected));
-		set_moves(null);
 	}, [selected]);
 
 	const state: board_state = {
@@ -46,7 +38,6 @@ export default function Board() {
 		moves: moves,
 		set_positions: set_positions,
 		set_selected: set_selected,
-		set_moves: set_moves,
 	}
 
 	return (

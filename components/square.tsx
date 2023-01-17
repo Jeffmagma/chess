@@ -1,6 +1,5 @@
-import {point, SquareProps} from "../chess/types";
+import {empty_pie, piece_id, point, SquareProps} from "../chess/types";
 import Piece from "./piece";
-
 import styles from "./../styles/square.module.css"
 
 export default function Square({x, y, piece, board, board_ref}: SquareProps) {
@@ -18,7 +17,7 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 			console.log(`${piece} ${JSON.stringify(selected)} -> ${JSON.stringify(new_position)}`);
 			set_positions(prev_board => {
 				prev_board[new_position.x][new_position.y] = piece;
-				prev_board[selected.x][selected.y] = "";
+				prev_board[selected.x][selected.y] = empty_pie;
 				return [...prev_board];
 			})
 		} else {
@@ -41,6 +40,6 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 		{square_is_move ? <div style={{width: "100%", height: "100%", position: "absolute"}}>
 			<div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "none"}}>x</div>
 		</div> : <></>}
-		{piece !== "" ? <Piece piece={piece} x={x} y={y} board={board} end_move={end_move} board_ref={board_ref}/> : <></>}
+		{piece.piece !== piece_id.none ? <Piece piece={piece} x={x} y={y} board={board} end_move={end_move} board_ref={board_ref}/> : <></>}
 	</div>
 }

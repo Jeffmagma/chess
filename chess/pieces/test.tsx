@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import {PieceInfo, point} from "../types";
+import {board, PieceInfo, point} from "../types";
 
 export const testpiece: PieceInfo = {
 	render: <TestPiece/>,
@@ -11,7 +11,7 @@ function TestPiece() {
 	return <Image src={"thirteen.svg"} alt={"test"} width={50} height={50}/>;
 }
 
-function moves_test(board: string[][], position: point): point[] {
+function moves_test(board: board, position: point): point[] {
 	return [
 		{x: position.x - 1, y: position.y},
 		{x: position.x + 1, y: position.y},

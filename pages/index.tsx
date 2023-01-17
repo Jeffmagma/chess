@@ -11,7 +11,9 @@ export default function Home() {
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
 				<link rel="icon" href="/favicon.ico"/>
 			</Head>
-			<Board/>
+			<div style={{position: "relative", height: "800px"}}>
+				<Board/>
+			</div>
 			<a href={"https://github.com/Jeffmagma/chess"}>source code</a>
 		</>
 	)
