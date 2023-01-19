@@ -55,7 +55,7 @@ export default function Piece({x, y, piece, board, end_move, board_ref}: PiecePr
 			}}
 		>
 			<div className={styles.piece_container}>
-				{piece_info[piece.piece].render}
+				{piece_info[piece.piece].render(piece.color)}
 			</div>
 		</motion.div>
 	);

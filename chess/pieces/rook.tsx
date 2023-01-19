@@ -1,14 +1,14 @@
 import Image from "next/image";
 
-import {board, piece_id, PieceInfo, point} from "../types";
+import {board, piece_id, PieceInfo, PieceRenderProps, point} from "../types";
 
 export const rook: PieceInfo = {
-	render: <Rook/>,
+	render: (color) => <Rook color={color}/>,
 	moves: moves_rook
 }
 
-function Rook() {
-	return <Image src={"/rook_white.png"} alt={"rook"} width={50} height={50}/>;
+function Rook({color}: PieceRenderProps) {
+	return <Image src={"/rook_" + color + ".png"} alt={"rook"} width={50} height={50}/>;
 }
 
 function moves_rook(board: board, position: point): point[] {

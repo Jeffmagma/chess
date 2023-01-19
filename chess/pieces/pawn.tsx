@@ -4,7 +4,7 @@ import {board, color_id, piece_id, PieceInfo, point} from "../types";
 import {in_bounds} from "../utils";
 
 export const pawn: PieceInfo = {
-	render: <Pawn/>,
+	render: () => <Pawn/>,
 	moves: moves_pawn
 }
 

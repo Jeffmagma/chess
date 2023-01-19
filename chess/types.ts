@@ -41,8 +41,12 @@ export class piece {
 export const p = new piece();
 
 export interface PieceInfo {
-	render: JSX.Element;
+	render: (color: color_id) => JSX.Element;
 	moves: (board: board, position: point) => point[];
+}
+
+export interface PieceRenderProps {
+	color: color_id;
 }
 
 export type PieceInfoMap = {

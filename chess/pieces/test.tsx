@@ -3,7 +3,7 @@ import Image from "next/image";
 import {board, PieceInfo, point} from "../types";
 
 export const testpiece: PieceInfo = {
-	render: <TestPiece/>,
+	render: () => <TestPiece/>,
 	moves: moves_test
 }
 
