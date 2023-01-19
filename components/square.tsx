@@ -1,4 +1,4 @@
-import {empty_pie, piece_id, point, SquareProps} from "../chess/types";
+import {p, piece_id, point, SquareProps} from "../chess/types";
 import Piece from "./piece";
 import styles from "./../styles/square.module.css"
 
@@ -10,14 +10,14 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 	// if this piece is dragged or clicked onto a new square
 	function end_move(new_position: point) {
 		if (selected === null) return;
-		const piece = board.positions[selected.x][selected.y];
+		const current_piece = board.positions[selected.x][selected.y];
 		// only if it's a valid move
 		if (moves.some(position => position.x === new_position.x && position.y === new_position.y)) {
 			// remove the piece from its current position and place it in the new position
-			console.log(`${piece} ${JSON.stringify(selected)} -> ${JSON.stringify(new_position)}`);
+			console.log(`${current_piece} ${JSON.stringify(selected)} -> ${JSON.stringify(new_position)}`);
 			set_positions(prev_board => {
-				prev_board[new_position.x][new_position.y] = piece;
-				prev_board[selected.x][selected.y] = empty_pie;
+				prev_board[new_position.x][new_position.y] = current_piece;
+				prev_board[selected.x][selected.y] = p;
 				return [...prev_board];
 			})
 		} else {
@@ -37,9 +37,9 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 		}
 	}}>
 		<div style={{position: "absolute"}}>{String.fromCharCode('A'.charCodeAt(0) + x) + (y + 1)}</div>
-		{square_is_move ? <div style={{width: "100%", height: "100%", position: "absolute"}}>
-			<div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "none"}}>x</div>
-		</div> : <></>}
 		{piece.piece !== piece_id.none ? <Piece piece={piece} x={x} y={y} board={board} end_move={end_move} board_ref={board_ref}/> : <></>}
+		{square_is_move ? <div style={{width: "100%", height: "100%", position: "absolute", zIndex: "2"}}>
+			<div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "none", color: "red"}}>x</div>
+		</div> : <></>}
 	</div>
 }

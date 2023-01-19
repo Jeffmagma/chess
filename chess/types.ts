@@ -9,6 +9,7 @@ export enum piece_id {
 	none = "none",
 	test = "test",
 	rook = "rook",
+	pawn = "pawn"
 }
 
 export enum color_id {
@@ -17,15 +18,27 @@ export enum color_id {
 	black = "black",
 }
 
-export interface pie {
-	piece: piece_id
-	color: color_id
+export enum move_type {
+	capture,
+	move,
 }
 
-export const empty_pie: pie = {
-	piece: piece_id.none,
-	color: color_id.none,
+export interface move {
+	position: point;
+	type: move_type;
 }
+
+export class piece {
+	piece: piece_id = piece_id.none
+	color: color_id = color_id.none
+	has_moved: boolean = false
+
+	constructor(piece: piece_id = piece_id.none, color: color_id = color_id.none, has_moved: boolean = false) {
+		return {piece: piece, color: color, has_moved: has_moved};
+	}
+}
+
+export const p = new piece();
 
 export interface PieceInfo {
 	render: JSX.Element;
@@ -36,7 +49,7 @@ export type PieceInfoMap = {
 	[key in piece_id]: PieceInfo;
 };
 
-export type board = pie[][];
+export type board = piece[][];
 
 export interface board_state {
 	positions: board
@@ -50,7 +63,7 @@ export interface SquareProps {
 	board: board_state;
 	x: number;
 	y: number;
-	piece: pie;
+	piece: piece;
 	board_ref: RefObject<HTMLDivElement>;
 }
 
