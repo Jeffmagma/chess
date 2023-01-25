@@ -2,17 +2,17 @@ import {useMemo, useRef, useState} from "react";
 
 import {piece_info} from "../chess/piece_info";
 import Square from "./square";
-import {board, board_state, BoardProps, color_id, p, piece, point, white_pawn, white_rook} from "../chess/types";
+import {board, board_state, BoardProps, color_id, p, piece, point, white_knight, white_pawn, white_rook} from "../chess/types";
 
 function get_initial_board(): piece[][] {
 	return [
 		[white_rook, white_pawn, p, p, p, p, p, p],
+		[white_knight, white_pawn, p, p, p, p, p, p],
 		[p, white_pawn, p, p, p, p, p, p],
 		[p, white_pawn, p, p, p, p, p, p],
 		[p, white_pawn, p, p, p, p, p, p],
 		[p, white_pawn, p, p, p, p, p, p],
-		[p, white_pawn, p, p, p, p, p, p],
-		[p, white_pawn, p, p, p, p, p, p],
+		[white_knight, white_pawn, p, p, p, p, p, p],
 		[white_rook, white_pawn, p, p, p, p, p, p],
 	];
 }
@@ -23,16 +23,14 @@ export default function Board({side}: BoardProps) {
 	const board_ref = useRef<HTMLDivElement>(null);
 	const positions_ref = useRef<board>(positions);
 
-	function calculate_moves() {
+	const moves = useMemo(() => {
 		if (selected === null) {
 			return [];
 		} else {
 			const piece = positions_ref.current[selected.x][selected.y];
 			return piece_info[piece.piece].moves(positions_ref.current, selected);
 		}
-	}
-
-	const moves = useMemo(calculate_moves, [selected]);
+	}, [selected]);
 
 	const board_squares = useMemo(() => {
 		let sss: point[] = [];

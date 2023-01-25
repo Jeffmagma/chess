@@ -1,22 +1,22 @@
 import Image from "next/image";
 
-import {board, color_id, piece_id, PieceInfo, point} from "../types";
+import {board, color_id, piece_id, PieceInfo, PieceRenderProps, point} from "../types";
 import {in_bounds} from "../utils";
 
 export const pawn: PieceInfo = {
-	render: () => <Pawn/>,
+	render: (color) => <Pawn color={color}/>,
 	moves: moves_pawn
 }
 
-function Pawn() {
-	return <Image src={"thirteen.svg"} alt={"test"} width={50} height={50}/>;
+function Pawn({color}: PieceRenderProps) {
+	return <Image src={"/pawn_" + color + ".png"} alt={"pawn"} width={50} height={50}/>;
 }
 
 function moves_pawn(board: board, position: point): point[] {
 	const piece = board[position.x][position.y];
 	const direction = (piece.color === color_id.white ? +1 : -1);
 
-	let moves = [];
+	let moves: point[] = [];
 
 	// if not at edge of the board
 	if (in_bounds(position.y + direction)) {
