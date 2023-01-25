@@ -14,25 +14,25 @@ function Pawn() {
 
 function moves_pawn(board: board, position: point): point[] {
 	const piece = board[position.x][position.y];
-	const direction = (piece.color == color_id.white ? +1 : -1);
+	const direction = (piece.color === color_id.white ? +1 : -1);
 
 	let moves = [];
 
 	// if not at edge of the board
-	if (in_bounds(position.x + direction)) {
+	if (in_bounds(position.y + direction)) {
 		// check if pawn can move forward
-		if (board[position.x + direction][position.y].piece === piece_id.none) {
-			moves.push({x: position.x + direction, y: position.y});
+		if (board[position.x][position.y + direction].piece === piece_id.none) {
+			moves.push({x: position.x, y: position.y + direction});
 			// can move two spaces if it hasn't moved yet
-			if (!piece.has_moved && in_bounds(position.x + direction * 2) && board[position.x + direction * 2][position.y].piece === piece_id.none) {
-				moves.push({x: position.x + direction * 2, y: position.y});
+			if (!piece.has_moved && in_bounds(position.y + direction * 2) && board[position.x][position.y + direction * 2].piece === piece_id.none) {
+				moves.push({x: position.x, y: position.y + direction * 2});
 			}
 		}
-		if (in_bounds(position.y + 1) && board[position.x + direction][position.y + 1].color !== piece.color) {
-			moves.push({x: position.x + direction, y: position.y + 1});
+		if (in_bounds(position.x + 1) && board[position.x + 1][position.y + direction].color !== piece.color) {
+			moves.push({x: position.x + 1, y: position.y + direction});
 		}
-		if (in_bounds(position.y - 1) && board[position.x + direction][position.y - 1].color !== piece.color) {
-			moves.push({x: position.x + direction, y: position.y - 1});
+		if (in_bounds(position.x - 1) && board[position.x - 1][position.y + direction].color !== piece.color) {
+			moves.push({x: position.x - 1, y: position.y + direction});
 		}
 	}
 

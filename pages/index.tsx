@@ -1,6 +1,7 @@
 import Head from 'next/head'
 
 import Board from "../components/board";
+import {color_id} from "../chess/types";
 
 export default function Home() {
 	return (
@@ -12,7 +13,7 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico"/>
 			</Head>
 			<div style={{position: "relative", height: "800px"}}>
-				<Board/>
+				<Board side={color_id.white}/>
 			</div>
 			<a href={"https://github.com/Jeffmagma/chess"}>source code</a>
 		</>

@@ -2,22 +2,22 @@ import {useMemo, useRef, useState} from "react";
 
 import {piece_info} from "../chess/piece_info";
 import Square from "./square";
-import {board, board_state, color_id, p, piece, piece_id, point} from "../chess/types";
+import {board, board_state, BoardProps, color_id, p, piece, point, white_pawn, white_rook} from "../chess/types";
 
 function get_initial_board(): piece[][] {
 	return [
-		[new piece(piece_id.rook, color_id.white), p, p, p, p, p, p, p],
-		[p, p, p, p, p, p, p, p],
-		[p, p, new piece(piece_id.rook, color_id.white), p, p, p, p, p],
-		[p, p, p, p, new piece(piece_id.rook, color_id.white), p, p, p],
-		[p, p, p, p, p, p, new piece(piece_id.pawn, color_id.white), p],
-		[p, p, p, p, p, new piece(piece_id.rook, color_id.black), p, p],
-		[p, p, p, p, p, p, p, p],
-		[p, p, p, p, p, p, new piece(piece_id.pawn, color_id.white), p],
+		[white_rook, white_pawn, p, p, p, p, p, p],
+		[p, white_pawn, p, p, p, p, p, p],
+		[p, white_pawn, p, p, p, p, p, p],
+		[p, white_pawn, p, p, p, p, p, p],
+		[p, white_pawn, p, p, p, p, p, p],
+		[p, white_pawn, p, p, p, p, p, p],
+		[p, white_pawn, p, p, p, p, p, p],
+		[white_rook, white_pawn, p, p, p, p, p, p],
 	];
 }
 
-export default function Board() {
+export default function Board({side}: BoardProps) {
 	const [positions, set_positions] = useState<piece[][]>(get_initial_board());
 	const [selected, set_selected] = useState<point | null>(null);
 	const board_ref = useRef<HTMLDivElement>(null);
@@ -34,6 +34,20 @@ export default function Board() {
 
 	const moves = useMemo(calculate_moves, [selected]);
 
+	const board_squares = useMemo(() => {
+		let sss: point[] = [];
+		for (let y = 0; y < 8; y++) {
+			for (let x = 0; x < 8; x++) {
+				if (side !== color_id.white) {
+					sss.push({x: x, y: y});
+				} else {
+					sss.push({x: x, y: 8 - y - 1});
+				}
+			}
+		}
+		return sss;
+	}, [side]);
+
 	const state: board_state = {
 		positions: positions,
 		selected: selected,
@@ -42,16 +56,14 @@ export default function Board() {
 		set_selected: set_selected,
 	};
 
+	const squares = board_squares.map(position => {
+		const {x, y} = position;
+		return <Square key={"" + x + y} x={x} y={y} piece={positions[x][y]} board={state} board_ref={board_ref}/>;
+	})
+
 	return (
-		<div
-			style={{position: "absolute", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"}}
-			ref={board_ref}
-		>
-			{positions.map((pieces, x) =>
-				pieces.map((piece, y) => (
-					<Square key={x + x + y} x={x} y={y} piece={piece} board={state} board_ref={board_ref}/>
-				))
-			)}
+		<div style={{position: "absolute", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr", userSelect: "none"}} ref={board_ref}>
+			{squares}
 		</div>
 	);
 }

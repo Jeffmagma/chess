@@ -39,6 +39,10 @@ export class piece {
 }
 
 export const p = new piece();
+export const white_pawn = new piece(piece_id.pawn, color_id.white);
+export const black_pawn = new piece(piece_id.pawn, color_id.black);
+export const white_rook = new piece(piece_id.rook, color_id.white);
+export const black_rook = new piece(piece_id.rook, color_id.black);
 
 export interface PieceInfo {
 	render: (color: color_id) => JSX.Element;
@@ -69,6 +73,10 @@ export interface SquareProps {
 	y: number;
 	piece: piece;
 	board_ref: RefObject<HTMLDivElement>;
+}
+
+export interface BoardProps {
+	side: color_id;
 }
 
 export interface PieceProps extends SquareProps {

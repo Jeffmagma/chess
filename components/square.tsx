@@ -36,7 +36,8 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 			}
 		}
 	}}>
-		<div style={{position: "absolute"}}>{String.fromCharCode('A'.charCodeAt(0) + x) + (y + 1)}</div>
+		{/*<div style={{position: "absolute"}}>{String.fromCharCode('A'.charCodeAt(0) + x) + (y + 1)}</div>*/}
+		<div style={{position: "absolute"}}>{x + " " + y}</div>
 		{piece.piece !== piece_id.none ? <Piece piece={piece} x={x} y={y} board={board} end_move={end_move} board_ref={board_ref}/> : <></>}
 		{square_is_move ? <div style={{width: "100%", height: "100%", position: "absolute", zIndex: "2"}}>
 			<div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "none", color: "red"}}>x</div>
