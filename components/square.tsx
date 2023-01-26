@@ -16,9 +16,9 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 			// remove the piece from its current position and place it in the new position
 			console.log(`${current_piece} ${JSON.stringify(selected)} -> ${JSON.stringify(new_position)}`);
 			set_positions(prev_board => {
+				current_piece.has_moved = true;
 				prev_board[new_position.x][new_position.y] = current_piece;
 				prev_board[selected.x][selected.y] = p;
-				current_piece.has_moved = true;
 				return [...prev_board];
 			})
 		} else {
