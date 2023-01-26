@@ -2,8 +2,7 @@ import {useMemo, useRef, useState} from "react";
 
 import {piece_info} from "../chess/piece_info";
 import Square from "./square";
-import {board, board_state, BoardProps, color_id, p, piece, point, white_knight, white_pawn, white_rook, move_type, black_rook} from "../chess/types";
-import { filterProps } from "framer-motion";
+import {black_pawn, black_rook, board, board_state, BoardProps, color_id, move_type, p, piece, point, white_knight, white_pawn, white_rook} from "../chess/types";
 
 function get_initial_board(): piece[][] {
 	return [
@@ -63,8 +62,10 @@ export default function Board({side}: BoardProps) {
 	})
 
 	return (
-		<div style={{position: "absolute", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr", userSelect: "none"}} ref={board_ref}>
-			{squares}
+		<div style={{display: "flex"}}>
+			<div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr", userSelect: "none"}} ref={board_ref}>
+				{squares}
+			</div>
 		</div>
 	);
 }
