@@ -2,18 +2,18 @@ import {useMemo, useRef, useState} from "react";
 
 import {piece_info} from "../chess/piece_info";
 import Square from "./square";
-import {black_pawn, black_rook, board, board_state, BoardProps, color_id, move_type, p, piece, point, white_knight, white_pawn, white_rook} from "../chess/types";
+import {black_pawn, black_rook, board, board_state, BoardProps, color_id, move_type, p, piece, point, white_knight, white_pawn, white_rook, black_knight} from "../chess/types";
 
 function get_initial_board(): piece[][] {
 	return [
-		[white_rook(), white_pawn(), p, p, p, p, p, black_rook()],
-		[white_knight(), white_pawn(), p, p, p, p, p, p],
-		[p, white_pawn(), p, p, p, p, p, p],
-		[p, white_pawn(), p, p, p, p, p, p],
-		[p, white_pawn(), p, p, p, p, p, p],
-		[p, white_pawn(), p, p, p, p, p, p],
-		[white_knight(), white_pawn(), p, p, p, p, p, p],
-		[white_rook(), white_pawn(), p, p, p, p, p, p],
+		[white_rook(), white_pawn(), p, p, p, p, black_pawn(), black_rook()],
+		[white_knight(), white_pawn(), p, p, p, p, black_pawn(), black_knight()],
+		[p, white_pawn(), p, p, p, p, black_pawn(), p],
+		[p, white_pawn(), p, p, p, p, black_pawn(), p],
+		[p, white_pawn(), p, p, p, p, black_pawn(), p],
+		[p, white_pawn(), p, p, p, p, black_pawn(), p],
+		[white_knight(), white_pawn(), p, p, p, p, black_pawn(), black_knight()],
+		[white_rook(), white_pawn(), p, p, p, p, black_pawn(), black_rook()],
 	];
 }
 

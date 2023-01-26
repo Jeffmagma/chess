@@ -15,6 +15,7 @@ export default function Piece({x, y, piece, board, end_move, board_ref}: PiecePr
 
 	return (
 		<motion.div
+			
 			drag={board.side === piece.color}
 			style={{
 				zIndex: 1,
@@ -27,10 +28,12 @@ export default function Piece({x, y, piece, board, end_move, board_ref}: PiecePr
 			dragElastic={0}
 			dragMomentum={false}
 			onClick={() => {
-				if (selected !== null && selected.x === x && selected.y === y) {
-					set_selected(null);
-				} else {
-					start_move();
+				if (board.side === piece.color) {
+					if (selected !== null && selected.x === x && selected.y === y) {
+						set_selected(null);
+					} else {
+						start_move();
+					}
 				}
 			}}
 			onDragStart={start_move}
