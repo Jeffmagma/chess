@@ -6,14 +6,14 @@ import {black_pawn, black_rook, board, board_state, BoardProps, color_id, move_t
 
 function get_initial_board(): piece[][] {
 	return [
-		[white_rook, white_pawn, p, p, p, p, p, black_rook],
-		[white_knight, white_pawn, p, p, p, p, p, p],
-		[p, white_pawn, p, p, p, p, p, p],
-		[p, white_pawn, p, p, p, p, black_pawn, p],
-		[p, white_pawn, p, p, p, p, p, p],
-		[p, white_pawn, p, p, p, p, p, p],
-		[white_knight, white_pawn, p, p, p, p, p, p],
-		[white_rook, white_pawn, p, p, p, p, p, p],
+		[white_rook(), white_pawn(), p, p, p, p, p, black_rook()],
+		[white_knight(), white_pawn(), p, p, p, p, p, p],
+		[p, white_pawn(), p, p, p, p, p, p],
+		[p, white_pawn(), p, p, p, p, p, p],
+		[p, white_pawn(), p, p, p, p, p, p],
+		[p, white_pawn(), p, p, p, p, p, p],
+		[white_knight(), white_pawn(), p, p, p, p, p, p],
+		[white_rook(), white_pawn(), p, p, p, p, p, p],
 	];
 }
 
