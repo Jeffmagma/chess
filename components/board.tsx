@@ -7,7 +7,7 @@ import { filterProps } from "framer-motion";
 
 function get_initial_board(): piece[][] {
 	return [
-		[white_rook, white_pawn, black_rook, p, p, p, p, p],
+		[white_rook, white_pawn, p, p, p, p, p, black_rook],
 		[white_knight, white_pawn, p, p, p, p, p, p],
 		[p, white_pawn, p, p, p, p, p, p],
 		[p, white_pawn, p, p, p, p, p, p],
