@@ -11,7 +11,8 @@ export enum piece_id {
 	rook = "rook",
 	pawn = "pawn",
 	knight = "knight",
-	bishop = "bishop"
+	bishop = "bishop",
+	queen = "queen"
 }
 
 export enum color_id {
@@ -49,6 +50,8 @@ export const white_knight = () => new piece(piece_id.knight, color_id.white);
 export const black_knight = () => new piece(piece_id.knight, color_id.black);
 export const white_bishop = () => new piece(piece_id.bishop, color_id.white);
 export const black_bishop = () => new piece(piece_id.bishop, color_id.black);
+export const white_queen = () => new piece(piece_id.queen, color_id.white);
+export const black_queen = () => new piece(piece_id.queen, color_id.black);
 
 export interface PieceInfo {
 	render: (color: color_id) => JSX.Element;
