@@ -9,7 +9,7 @@ export const bishop: PieceInfo = {
 }
 
 function Bishop({ color }: PieceRenderProps) {
-    return <Image src={"/thirteen.svg"} alt={"bishop"} width={50} height={50} />;
+    return <Image src={`/bishop_${color}.png`} alt={"bishop"} width={50} height={50} />;
 }
 
 function moves_bishop(board: board, position: point): move[] {
