@@ -52,6 +52,7 @@ export default function Board({side}: BoardProps) {
 		positions: positions,
 		selected: selected,
 		moves: moves,
+		side: side,
 		set_positions: set_positions,
 		set_selected: set_selected,
 	};

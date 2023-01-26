@@ -15,7 +15,7 @@ export default function Piece({x, y, piece, board, end_move, board_ref}: PiecePr
 
 	return (
 		<motion.div
-			drag
+			drag={board.side === piece.color}
 			style={{
 				zIndex: 1,
 				width: "100%",

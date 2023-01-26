@@ -66,6 +66,7 @@ export interface board_state {
 	positions: board
 	selected: point | null;
 	moves: move[];
+	side: color_id;
 	set_positions: Dispatch<SetStateAction<board>>;
 	set_selected: Dispatch<SetStateAction<point | null>>;
 }
