@@ -2,11 +2,12 @@ import {useMemo, useRef, useState} from "react";
 
 import {piece_info} from "../chess/piece_info";
 import Square from "./square";
-import {board, board_state, BoardProps, color_id, p, piece, point, white_knight, white_pawn, white_rook} from "../chess/types";
+import {board, board_state, BoardProps, color_id, p, piece, point, white_knight, white_pawn, white_rook, move_type, black_rook} from "../chess/types";
+import { filterProps } from "framer-motion";
 
 function get_initial_board(): piece[][] {
 	return [
-		[white_rook, white_pawn, p, p, p, p, p, p],
+		[white_rook, white_pawn, black_rook, p, p, p, p, p],
 		[white_knight, white_pawn, p, p, p, p, p, p],
 		[p, white_pawn, p, p, p, p, p, p],
 		[p, white_pawn, p, p, p, p, p, p],
@@ -28,7 +29,9 @@ export default function Board({side}: BoardProps) {
 			return [];
 		} else {
 			const piece = positions_ref.current[selected.x][selected.y];
-			return piece_info[piece.piece].moves(positions_ref.current, selected);
+			const moves = piece_info[piece.piece].moves(positions_ref.current, selected);
+
+			return moves.filter(move => move.type === move_type.move || positions_ref.current[move.position.x][move.position.y].color != color_id.none); // Assume pieces already filtered for own color
 		}
 	}, [selected]);
 

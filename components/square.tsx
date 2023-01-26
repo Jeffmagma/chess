@@ -18,6 +18,7 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 			set_positions(prev_board => {
 				prev_board[new_position.x][new_position.y] = current_piece;
 				prev_board[selected.x][selected.y] = p;
+				current_piece.has_moved = true;
 				return [...prev_board];
 			})
 		} else {
