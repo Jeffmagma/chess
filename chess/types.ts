@@ -49,7 +49,7 @@ export const black_knight = new piece(piece_id.knight, color_id.black);
 
 export interface PieceInfo {
 	render: (color: color_id) => JSX.Element;
-	moves: (board: board, position: point) => point[];
+	moves: (board: board, position: point) => move[];
 }
 
 export interface PieceRenderProps {
@@ -65,7 +65,7 @@ export type board = piece[][];
 export interface board_state {
 	positions: board
 	selected: point | null;
-	moves: point[];
+	moves: move[];
 	set_positions: Dispatch<SetStateAction<board>>;
 	set_selected: Dispatch<SetStateAction<point | null>>;
 }

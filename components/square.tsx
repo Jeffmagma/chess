@@ -1,18 +1,18 @@
-import {p, piece_id, point, SquareProps} from "../chess/types";
+import {move_type, p, piece_id, point, SquareProps} from "../chess/types";
 import Piece from "./piece";
 import styles from "./../styles/square.module.css"
 
 export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 	const {moves, selected, set_selected, set_positions} = board;
 
-	const square_is_move = moves.some(position => position.x === x && position.y === y);
+	const ss = moves.find(move => move.position.x === x && move.position.y === y);
 
 	// if this piece is dragged or clicked onto a new square
 	function end_move(new_position: point) {
 		if (selected === null) return;
 		const current_piece = board.positions[selected.x][selected.y];
 		// only if it's a valid move
-		if (moves.some(position => position.x === new_position.x && position.y === new_position.y)) {
+		if (moves.some(move => move.position.x === new_position.x && move.position.y === new_position.y)) {
 			// remove the piece from its current position and place it in the new position
 			console.log(`${current_piece} ${JSON.stringify(selected)} -> ${JSON.stringify(new_position)}`);
 			set_positions(prev_board => {
@@ -39,8 +39,8 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 		{/*<div style={{position: "absolute"}}>{String.fromCharCode('A'.charCodeAt(0) + x) + (y + 1)}</div>*/}
 		<div style={{position: "absolute"}}>{x + " " + y}</div>
 		{piece.piece !== piece_id.none ? <Piece piece={piece} x={x} y={y} board={board} end_move={end_move} board_ref={board_ref}/> : <></>}
-		{square_is_move ? <div style={{width: "100%", height: "100%", position: "absolute", zIndex: "2"}}>
-			<div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "none", color: "red"}}>x</div>
+		{ss !== undefined ? <div style={{width: "100%", height: "100%", position: "absolute", zIndex: "2"}}>
+			<div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "none", color: (ss.type === move_type.capture ? "red" : "blue")}}>x</div>
 		</div> : <></>}
 	</div>
 }
