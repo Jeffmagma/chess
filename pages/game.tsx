@@ -1,8 +1,9 @@
 import Head from 'next/head'
-import Link from "next/link";
-import {GameList} from "../components/game_list";
 
-export default function Home() {
+import Board from "../components/board";
+import {color_id} from "../chess/types";
+
+export default function Game() {
 	return (
 		<>
 			<Head>
@@ -11,8 +12,10 @@ export default function Home() {
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
 				<link rel="icon" href="/favicon.ico"/>
 			</Head>
-			<Link href="/game">view board</Link>
-			<GameList/>
+			<div style={{display: "flex", gap: "10px"}}>
+				<Board side={color_id.white}/>
+				<Board side={color_id.black}/>
+			</div>
 			<a href={"https://github.com/Jeffmagma/chess"}>source code</a>
 		</>
 	)

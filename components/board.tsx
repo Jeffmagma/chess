@@ -3,7 +3,6 @@ import {useMemo, useRef, useState} from "react";
 import {piece_info} from "../chess/piece_info";
 import Square from "./square";
 import {black_bishop, black_knight, black_pawn, black_queen, black_rook, board, board_state, BoardProps, color_id, move_type, p, piece, point, white_bishop, white_knight, white_pawn, white_queen, white_rook} from "../chess/types";
-import {test11} from "../chess/supabase";
 
 function get_initial_board(): piece[][] {
 	return [
@@ -57,8 +56,6 @@ export default function Board({side}: BoardProps) {
 		set_positions: set_positions,
 		set_selected: set_selected,
 	};
-
-	test11();
 
 	const squares = board_squares.map(position => {
 		const {x, y} = position;
