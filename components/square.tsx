@@ -28,7 +28,7 @@ export default function Square({x, y, piece, board, board_ref}: SquareProps) {
 		set_selected(null);
 	}
 
-	return <div data-x={x} data-y={y} className={styles.square + " " + (y % 2 == x % 2 ? styles.light : styles.dark)} onClick={() => {
+	return <div data-x={x} data-y={y} className={styles.square + " " + (y % 2 === x % 2 ? styles.light : styles.dark)} onClick={() => {
 		if (selected !== null) {
 			if (selected.x === x && selected.y === y) {
 				set_selected(null);

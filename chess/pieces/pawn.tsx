@@ -23,7 +23,7 @@ function moves_pawn(board: board, position: point): move[] {
 		// check if pawn can move forward
 		if (board[position.x][position.y + direction].piece === piece_id.none) {
 			moves.push({position: {x: position.x, y: position.y + direction}, type: move_type.move});
-			// can move two spaces if it hasn't moved yet TODO keep track of when a piece moves
+			// can move two spaces if it hasn't moved yet
 			if (!piece.has_moved && in_bounds(position.y + direction * 2) && board[position.x][position.y + direction * 2].piece === piece_id.none) {
 				moves.push({position: {x: position.x, y: position.y + direction * 2}, type: move_type.move});
 			}
