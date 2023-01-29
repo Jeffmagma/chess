@@ -9,7 +9,7 @@ export const pawn: PieceInfo = {
 }
 
 function Pawn({color}: PieceRenderProps) {
-	return <Image src={"/pawn_" + color + ".png"} alt={"pawn"} width={50} height={50}/>;
+	return <Image src={`/pawn_${color}.png`} alt={"pawn"} width={50} height={50}/>;
 }
 
 function moves_pawn(board: board, position: point): move[] {

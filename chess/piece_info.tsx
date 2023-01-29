@@ -1,6 +1,6 @@
 import {piece_id, PieceInfoMap} from "./types";
 
-import {testpiece} from "./pieces/test";
+import {testpiece} from "./pieces/piece";
 import {rook} from "./pieces/rook";
 import {pawn} from "./pieces/pawn";
 import {knight} from "./pieces/knight";

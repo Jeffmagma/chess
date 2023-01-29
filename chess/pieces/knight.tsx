@@ -9,7 +9,7 @@ export const knight: PieceInfo = {
 }
 
 function Knight({color}: PieceRenderProps) {
-	return <Image src={"/knight_" + color + ".png"} alt={"knight"} width={50} height={50}/>;
+	return <Image src={`/knight_${color}.png`} alt={"knight"} width={50} height={50}/>;
 }
 
 function moves_knight(board: board, position: point): move[] {

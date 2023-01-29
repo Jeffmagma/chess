@@ -1,13 +1,30 @@
 import Head from 'next/head'
 import Link from "next/link";
 import {Auth, ThemeSupa} from '@supabase/auth-ui-react'
-import {useSession} from '@supabase/auth-helpers-react'
+import {useSession, useUser} from '@supabase/auth-helpers-react'
 
 import {GameList} from "../components/game_list";
 import {supabase} from "../chess/supabase";
 
 export default function Home() {
 	const session = useSession()
+	const user = useUser();
+
+	async function update_username(username: string) {
+		try {
+			if (!user) throw new Error("no user")
+			const updates = {
+				id: user.id,
+				username: username,
+				updated_at: new Date().toISOString()
+			}
+			let {error} = await supabase.from('profiles').upsert(updates)
+			if (error) throw error
+		} catch (error) {
+			alert('Error updating the data!')
+			console.log(error)
+		}
+	}
 
 	return (
 		<>
@@ -24,8 +41,12 @@ export default function Home() {
 					<Auth supabaseClient={supabase} appearance={{theme: ThemeSupa}} providers={["google"]} theme="dark"/>
 				) : (
 					<>
+						<button onClick={() => {
+							update_username("wee" + Math.random()).then(_ => alert('Profile updated!'))
+						}}>lol
+						</button>
 						<p>signed in</p>
-						<button className="button block" onClick={() => supabase.auth.signOut()}>
+						<button className="button block" onClick={supabase.auth.signOut}>
 							Sign Out
 						</button>
 					</>

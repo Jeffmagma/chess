@@ -1,31 +1,25 @@
 import Image from "next/image";
 
-import { board, color_id, move, move_type, piece, PieceInfo, PieceRenderProps, point } from "../types";
-import { in_bounds } from "../utils";
+import {board, color_id, move, move_type, piece, PieceInfo, PieceRenderProps, point} from "../types";
+import {in_bounds} from "../utils";
+import {edge_mover} from "./piece";
 
 export const bishop: PieceInfo = {
-    render: (color) => <Bishop color={color} />,
-    moves: moves_bishop
+	render: (color) => <Bishop color={color}/>,
+	moves: moves_bishop
 }
 
-function Bishop({ color }: PieceRenderProps) {
-    return <Image src={`/bishop_${color}.png`} alt={"bishop"} width={50} height={50} />;
+function Bishop({color}: PieceRenderProps) {
+	return <Image src={`/bishop_${color}.png`} alt={"bishop"} width={50} height={50}/>;
 }
 
 function moves_bishop(board: board, position: point): move[] {
-    let moves: move[] = [];
+	const directions = [
+		{x: -1, y: -1},
+		{x: -1, y: +1},
+		{x: +1, y: -1},
+		{x: +1, y: +1}
+	];
 
-    const vecs: point[] = [{ x: -1, y: -1 }, { x: -1, y: 1}, { x: 1, y: - 1}, { x: 1, y: 1}];
-    const my_color = board[position.x][position.y].color;
-
-    vecs.forEach( vec => {
-        for (let i = 1; i < 8; ++i) {
-            const dest: point = {x: position.x + vec.x * i, y: position.y + vec.y * i};
-            if (!in_bounds(dest.x) || !in_bounds(dest.y) || board[dest.x][dest.y].color === my_color) { break; }
-            if (board[dest.x][dest.y].color !== color_id.none) { moves.push({ position: dest, type: move_type.capture }); break; }
-            moves.push({ position: dest, type: move_type.move })
-        }
-    })
-
-    return moves;
+	return edge_mover(board, position, directions);
 }
