@@ -2,7 +2,7 @@ import {useMemo, useRef, useState} from "react";
 
 import {piece_info} from "../chess/piece_info";
 import Square from "./square";
-import {black_bishop, black_knight, black_pawn, black_queen, black_rook, board, board_state, BoardProps, color_id, move_type, p, piece, point, white_bishop, white_knight, white_pawn, white_queen, white_rook} from "../chess/types";
+import {black_bishop, black_knight, black_pawn, black_queen, black_rook, board, board_state, BoardProps, color_id, move_type, p, piece, point, white_bishop, white_knight, white_pawn, white_queen, white_rook, white_king, black_king} from "../chess/types";
 
 function get_initial_board(): piece[][] {
 	return [
@@ -10,7 +10,7 @@ function get_initial_board(): piece[][] {
 		[white_knight(), white_pawn(), p, p, p, p, black_pawn(), black_knight()],
 		[white_bishop(), white_pawn(), p, p, p, p, black_pawn(), black_bishop()],
 		[white_queen(), white_pawn(), p, p, p, p, black_pawn(), black_queen()],
-		[p, white_pawn(), p, p, p, p, black_pawn(), p],
+		[white_king(), white_pawn(), p, p, p, p, black_pawn(), black_king()],
 		[white_bishop(), white_pawn(), p, p, p, p, black_pawn(), black_bishop()],
 		[white_knight(), white_pawn(), p, p, p, p, black_pawn(), black_knight()],
 		[white_rook(), white_pawn(), p, p, p, p, black_pawn(), black_rook()],
@@ -30,7 +30,8 @@ export default function Board({side}: BoardProps) {
 			const piece = positions_ref.current[selected.x][selected.y];
 			const moves = piece_info[piece.piece].moves(positions_ref.current, selected);
 
-			return moves.filter(move => move.type === move_type.move || positions_ref.current[move.position.x][move.position.y].color != color_id.none); // Assume pieces already filtered for own color
+			return moves.filter(move => move.type !== move_type.capture || 
+					positions_ref.current[move.position.x][move.position.y].color != color_id.none); // Assume pieces already filtered for own color
 		}
 	}, [selected]);
 

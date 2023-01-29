@@ -12,7 +12,8 @@ export enum piece_id {
 	pawn = "pawn",
 	knight = "knight",
 	bishop = "bishop",
-	queen = "queen"
+	queen = "queen",
+	king = "king"
 }
 
 export enum color_id {
@@ -24,11 +25,16 @@ export enum color_id {
 export enum move_type {
 	capture,
 	move,
+	special
 }
 
 export interface move {
 	position: point;
 	type: move_type;
+}
+
+export interface special_move extends move {
+	targets: point[];
 }
 
 export class piece {
@@ -52,10 +58,13 @@ export const white_bishop = () => new piece(piece_id.bishop, color_id.white);
 export const black_bishop = () => new piece(piece_id.bishop, color_id.black);
 export const white_queen = () => new piece(piece_id.queen, color_id.white);
 export const black_queen = () => new piece(piece_id.queen, color_id.black);
+export const white_king = () => new piece(piece_id.king, color_id.white);
+export const black_king = () => new piece(piece_id.king, color_id.black);
 
 export interface PieceInfo {
 	render: (color: color_id) => JSX.Element;
 	moves: (board: board, position: point) => move[];
+	do_special?: (board: board, position: point, mov: special_move) => board;
 }
 
 export interface PieceRenderProps {
