@@ -10,19 +10,31 @@ export default function Home() {
 	const session = useSession()
 	const user = useUser();
 
-	async function update_username(username: string) {
-		try {
-			if (!user) throw new Error("no user")
-			const updates = {
-				id: user.id,
-				username: username,
-				updated_at: new Date().toISOString()
+	// function that adds a row to the table "games" on supabase
+	async function create_game() {
+		let {error} = await supabase.from('games').insert([
+			{
+				board: [{hi: "hi"}, {lol: "hi2"}],
+				created_at: new Date().toISOString(),
 			}
-			let {error} = await supabase.from('profiles').upsert(updates)
-			if (error) throw error
-		} catch (error) {
-			alert('Error updating the data!')
-			console.log(error)
+		]);
+		if (error) {
+			throw error;
+		}
+	}
+
+	async function update_username(username: string) {
+		if (!user) {
+			throw new Error("no user");
+		}
+		const updates = {
+			id: user.id,
+			username: username,
+			updated_at: new Date().toISOString()
+		};
+		let {error} = await supabase.from('profiles').upsert(updates);
+		if (error) {
+			throw error;
 		}
 	}
 
@@ -42,8 +54,17 @@ export default function Home() {
 				) : (
 					<>
 						<button onClick={() => {
-							update_username("wee" + Math.random()).then(_ => alert('Profile updated!'))
-						}}>lol
+							try {
+								update_username("wee" + Math.random()).then(_ => alert('Profile updated!'))
+							} catch (error: any) {
+								console.log("error updating profile");
+								console.log(error);
+							}
+						}}>update username test
+						</button>
+						<button onClick={() => {
+							create_game().then(_ => alert('Game created!'));
+						}}>create game test
 						</button>
 						<p>signed in</p>
 						<button className="button block" onClick={() => supabase.auth.signOut()}>
