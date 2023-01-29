@@ -8,9 +8,9 @@ function get_initial_board(): piece[][] {
 	return [
 		[white_rook(), white_pawn(), p, p, p, p, black_pawn(), black_rook()],
 		[white_knight(), white_pawn(), p, p, p, p, black_pawn(), black_knight()],
-		[white_bishop(), white_pawn(), p, p, p, p, black_pawn(), black_bishop()],
+		[white_king(), white_pawn(), p, p, p, p, black_pawn(), black_bishop()],
 		[white_queen(), white_pawn(), p, p, p, p, black_pawn(), black_queen()],
-		[white_king(), white_pawn(), p, p, p, p, black_pawn(), black_king()],
+		[p, white_pawn(), p, p, p, p, black_pawn(), black_king()],
 		[white_bishop(), white_pawn(), p, p, p, p, black_pawn(), black_bishop()],
 		[white_knight(), white_pawn(), p, p, p, p, black_pawn(), black_knight()],
 		[white_rook(), white_pawn(), p, p, p, p, black_pawn(), black_rook()],

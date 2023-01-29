@@ -60,8 +60,10 @@ function moves_king(board: board, position: point): move[] {
                     }
 
                     // Castling is valid:
-                    const castle: special_move = { position: { x: 6, y: position.y }, type: move_type.special, targets: [{ x: x, y: position.y }] }  // Need to move target to d, king to c
-                    moves.push(castle) // Need to move target to f, king to g
+                    // Need to move target to f, king to g
+                    const castle: special_move[] = [{ position: { x: 6, y: position.y }, type: move_type.special, targets: [{ x: x, y: position.y }] },
+                                                    { position: { x: x, y: position.y}, type: move_type.special, targets: [{ x: x, y: position.y }]}]
+                    moves.push(...castle) 
                 }
                 break right_castle;
             }
@@ -91,8 +93,9 @@ function moves_king(board: board, position: point): move[] {
                     }
 
                     // Castling is valid:
-                    const castle: special_move = { position: { x: 2, y: position.y }, type: move_type.special, targets: [{ x: x, y: position.y }] }  // Need to move target to d, king to c
-                    moves.push(castle)
+                    const castle: special_move[] = [{ position: { x: 2, y: position.y }, type: move_type.special, targets: [{ x: x, y: position.y }] },  // Need to move target to d, king to c
+                                                        { position: { x: x, y: position.y }, type: move_type.special, targets: [{ x: x, y: position.y }] }]
+                    moves.push(...castle)
                 }
                 break left_castle;
             }
