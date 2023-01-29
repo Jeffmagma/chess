@@ -46,7 +46,7 @@ export default function Home() {
 						}}>lol
 						</button>
 						<p>signed in</p>
-						<button className="button block" onClick={supabase.auth.signOut}>
+						<button className="button block" onClick={() => supabase.auth.signOut()}>
 							Sign Out
 						</button>
 					</>
