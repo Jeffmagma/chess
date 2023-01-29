@@ -1,5 +1,6 @@
-import {supabase} from "../chess/supabase";
 import {useEffect, useState} from "react";
+
+import {supabase} from "../chess/supabase";
 
 export function GameList() {
 	const [payloads, set_payloads] = useState<string[]>([]);
@@ -12,11 +13,9 @@ export function GameList() {
 		console.log("subscribe")
 		const channel = supabase.channel("table-db-changes").on("postgres_changes", {event: "UPDATE", schema: "public", table: "games"}, (payload => set_payloads(cur => [...cur, JSON.stringify(payload)]))).subscribe();
 		return () => {
-			channel.unsubscribe().then(r => console.log("unsubscribed:" + r))
+			channel.unsubscribe().then(r => console.log("unsubscribed:" + r));
 		};
 	}, []);
 
-	return <div>
-		{payloads}
-	</div>
+	return <div>{payloads}</div>;
 }

@@ -1,5 +1,7 @@
 ## chess wee woo
 
+---
+
 attempt at making a chess game in React
 
 technologies:
@@ -11,9 +13,9 @@ technologies:
 
 todo:
 
-- fix board rendering from x,y to y,x
 - add remaining pieces and some custom ones
 - improve move system
-- allow rendering based on player color
-- server setup with firebase
+- server setup with supbase
+  - authentication
+  - networking
 - page to allow matchmaking

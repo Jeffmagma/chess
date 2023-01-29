@@ -1,8 +1,14 @@
 import Head from 'next/head'
 import Link from "next/link";
+import {Auth, ThemeSupa} from '@supabase/auth-ui-react'
+import {useSession} from '@supabase/auth-helpers-react'
+
 import {GameList} from "../components/game_list";
+import {supabase} from "../chess/supabase";
 
 export default function Home() {
+	const session = useSession()
+
 	return (
 		<>
 			<Head>
@@ -13,6 +19,19 @@ export default function Home() {
 			</Head>
 			<Link href="/game">view board</Link>
 			<GameList/>
+			<div className="container" style={{padding: '50px 0 100px 0'}}>
+				{!session ? (
+					<Auth supabaseClient={supabase} appearance={{theme: ThemeSupa}} providers={["google"]} theme="dark"/>
+				) : (
+					<>
+						<p>signed in</p>
+						<button className="button block" onClick={() => supabase.auth.signOut()}>
+							Sign Out
+						</button>
+					</>
+
+				)}
+			</div>
 			<a href={"https://github.com/Jeffmagma/chess"}>source code</a>
 		</>
 	)

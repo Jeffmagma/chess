@@ -1,8 +1,9 @@
-import {useMemo, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 
 import {piece_info} from "../chess/piece_info";
 import Square from "./square";
 import {black_bishop, black_knight, black_pawn, black_queen, black_rook, board, board_state, BoardProps, color_id, move_type, p, piece, point, white_bishop, white_knight, white_pawn, white_queen, white_rook} from "../chess/types";
+import {supabase} from "../chess/supabase";
 
 function get_initial_board(): piece[][] {
 	return [
@@ -18,10 +19,23 @@ function get_initial_board(): piece[][] {
 }
 
 export default function Board({side}: BoardProps) {
+	const room_id = "1234";
+
 	const [positions, set_positions] = useState<piece[][]>(get_initial_board());
 	const [selected, set_selected] = useState<point | null>(null);
 	const board_ref = useRef<HTMLDivElement>(null);
 	const positions_ref = useRef<board>(positions);
+
+	// listen for changes to the current game
+	useEffect(() => {
+		const channel = supabase.channel("table-db-changes")
+			.on("postgres_changes",
+				{event: "UPDATE", schema: "public", table: "games", filter: "id = room_id"},
+				(payload => console.log(payload))).subscribe();
+		return () => {
+			channel.unsubscribe().then(r => console.log("unsubscribed:" + r));
+		};
+	})
 
 	const moves = useMemo(() => {
 		if (selected === null) {
