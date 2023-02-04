@@ -2,8 +2,6 @@ import Head from 'next/head'
 import Link from "next/link";
 import {Auth, ThemeSupa} from '@supabase/auth-ui-react'
 import {useSession} from '@supabase/auth-helpers-react'
-
-import {GameList} from "../components/game_list";
 import {supabase} from "../chess/supabase";
 
 export default function Home() {
@@ -11,12 +9,10 @@ export default function Home() {
 
 	// function that adds a row to the table "games" on supabase
 	async function create_game() {
-		let {error} = await supabase.from('games').insert([
-			{
-				board: [{hi: "hi"}, {lol: "hi2"}],
-				created_at: new Date().toISOString(),
-			}
-		]);
+		let {error} = await supabase.from('games').insert({
+			board: [{hi: "hi"}, {lol: "hi2"}],
+			created_at: new Date().toISOString(),
+		});
 		if (error) {
 			throw error;
 		}
@@ -30,9 +26,9 @@ export default function Home() {
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
 				<link rel="icon" href="/favicon.ico"/>
 			</Head>
-			<Link href="/game">view board</Link>
-			<Link href="/profile">profile test</Link>
-			<GameList/>
+			<Link href="/game">view test board</Link>
+			<Link href="/profile">profile editor</Link>
+			<Link href="/play">play</Link>
 			<div className="container" style={{padding: '50px 0 100px 0'}}>
 				{!session ? (
 					<Auth supabaseClient={supabase} appearance={{theme: ThemeSupa}} providers={["google"]} theme="dark"/>
@@ -47,7 +43,6 @@ export default function Home() {
 							Sign Out
 						</button>
 					</>
-
 				)}
 			</div>
 			<a href={"https://github.com/Jeffmagma/chess"}>source code</a>
